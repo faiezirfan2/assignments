@@ -2,34 +2,34 @@ Attempt-Before-AI: Data Audit & Diagnostic Log
 
 Before consulting any AI tools or writing cleaning scripts, I performed an independent diagnostic audit of the raw dataset (teaching_prices_messy.csv). I loaded the dataset using pandas and ran the following checks to understand its structure and data types:
 
-# raw = pd.read_csv("teaching_prices_messy.csv")
-# raw.shape
-# raw.info()
-# raw.isna().sum()
-# raw.duplicated().sum()
-# raw['item'].value_counts(dropna=False)
-# raw[raw.duplicated(keep=False)]
-# number = pd.to_numeric(raw["price"],errors="coerce")
-# print("missing before", raw["price"].isna().sum())
-# print("missing after", number.isna().sum())  
+* raw = pd.read_csv("teaching_prices_messy.csv")
+* raw.shape
+* raw.info()
+* raw.isna().sum()
+* raw.duplicated().sum()
+* raw['item'].value_counts(dropna=False)
+* raw[raw.duplicated(keep=False)]
+* number = pd.to_numeric(raw["price"],errors="coerce")
+* print("missing before", raw["price"].isna().sum())
+* print("missing after", number.isna().sum())  
 
 
 Diagnosed Problems & Anomalies
 
 Problem 1: Exact Duplicate Row
-# raw.duplicated().sum()
+* raw.duplicated().sum()
  returned 1,  Inspecting with     #  raw[raw.duplicated(keep=False)] 
 showed that Row 96 is an exact duplicate of Row 8          (Staple A, City 1, 2026-01-08, price 99.5).
 
 Problem 2: Inconsistent Text Casing
-# raw['item'].value_counts()  
+* raw['item'].value_counts()  
 revealed 24 entries for "Staple A",  "Oil B",  "Pulse C",  "Sweetener D", 
 but 1 entry labeled lowercase "oil b" at index 40.
 
 
 
 Problem 3: Missing Price Value
- #  raw.isna().sum() 
+*  raw.isna().sum() 
 showed 1 missing value in the price column, specifically at index 5 (Pulse C, City 2, 2026-01-01).
 
 Problem 4: Malformed and Outlier Prices
